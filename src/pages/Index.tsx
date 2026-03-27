@@ -16,6 +16,7 @@ const Index = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
 
@@ -33,7 +34,7 @@ const Index = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !address.trim()) {
+    if (!name.trim() || !phone.trim() || !address.trim() || !email.trim()) {
       toast({ title: 'Uzupełnij wszystkie pola', variant: 'destructive' });
       return;
     }
@@ -136,6 +137,10 @@ const Index = () => {
                 <div>
                   <Label htmlFor="name" className="mb-1.5 block text-sm font-medium">Imię i nazwisko</Label>
                   <Input id="name" value={name} onChange={e => setName(e.target.value)} placeholder="Jan Kowalski" />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="mb-1.5 block text-sm font-medium">Adres e-mail</Label>
+                  <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="jan@example.com" />
                 </div>
                 <div>
                   <Label htmlFor="phone" className="mb-1.5 block text-sm font-medium">Numer telefonu</Label>
