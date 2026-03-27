@@ -16,6 +16,7 @@ const Index = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
 
