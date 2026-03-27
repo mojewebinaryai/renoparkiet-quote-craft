@@ -34,7 +34,7 @@ const Index = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !address.trim()) {
+    if (!name.trim() || !phone.trim() || !address.trim() || !email.trim()) {
       toast({ title: 'Uzupełnij wszystkie pola', variant: 'destructive' });
       return;
     }
