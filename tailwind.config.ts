@@ -14,6 +14,7 @@ export default {
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
+      display: ['Space Grotesk', 'sans-serif'],
     },
     extend: {
       colors: {
@@ -87,6 +88,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "star-btn": "star-btn calc(var(--duration, 3) * 1s) linear infinite",
       },
     },
   },
