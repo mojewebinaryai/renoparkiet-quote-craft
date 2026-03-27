@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import { NavLink } from '@/components/NavLink';
 import { StarButton } from '@/components/ui/star-button';
 import { getServices } from '@/lib/priceStore';
+import { Sneak } from '@/components/ui/sneak';
 import {
   ArrowRight,
   Sparkles,
@@ -43,6 +44,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      {/* Interactive Sneak Banner */}
+      <section className="relative w-full h-[300px] md:h-[400px] border-b border-border/50">
+        <Sneak text="RenoParkiet" />
+      </section>
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/50">
