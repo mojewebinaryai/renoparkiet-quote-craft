@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import { NavLink } from '@/components/NavLink';
 import { StarButton } from '@/components/ui/star-button';
 import { getServices } from '@/lib/priceStore';
+import { Sneak } from '@/components/ui/sneak';
 import {
   ArrowRight,
   Sparkles,
