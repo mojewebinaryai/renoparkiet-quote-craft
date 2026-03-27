@@ -1,231 +1,256 @@
-import { useState, useMemo } from 'react';
 import Header from '@/components/Header';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
+import { NavLink } from '@/components/NavLink';
 import { StarButton } from '@/components/ui/star-button';
 import { getServices } from '@/lib/priceStore';
-import { Calculator, Send, CheckCircle2, Sparkles, ArrowRight, Ruler } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import {
+  ArrowRight,
+  Sparkles,
+  Shield,
+  Clock,
+  Award,
+  Layers,
+  Paintbrush,
+  Droplets,
+  Wrench,
+  RulerIcon,
+  ChevronRight,
+  Star,
+} from 'lucide-react';
+
+const services = [
+  { icon: Layers, title: 'Cyklinowanie', desc: 'Profesjonalne szlifowanie parkietu przywracające naturalny wygląd drewna.' },
+  { icon: Paintbrush, title: 'Lakierowanie', desc: 'Trwałe zabezpieczenie podłogi lakierem w wybranym połysku.' },
+  { icon: Droplets, title: 'Olejowanie', desc: 'Naturalna ochrona olejem podkreślająca strukturę drewna.' },
+  { icon: Wrench, title: 'Uzupełnianie ubytków', desc: 'Naprawa uszkodzeń i wypełnienie szczelin w parkiecie.' },
+  { icon: RulerIcon, title: 'Montaż listew', desc: 'Precyzyjny montaż listew przypodłogowych dopasowanych do podłogi.' },
+];
+
+const projects = [
+  { title: 'Apartament na Mokotowie', area: '85 m²', type: 'Cyklinowanie + Olejowanie' },
+  { title: 'Kamienica na Pradze', area: '120 m²', type: 'Renowacja kompletna' },
+  { title: 'Dom jednorodzinny Wilanów', area: '200 m²', type: 'Lakierowanie' },
+];
+
+const stats = [
+  { value: '500+', label: 'Realizacji' },
+  { value: '15', label: 'Lat doświadczenia' },
+  { value: '98%', label: 'Zadowolonych klientów' },
+  { value: '24h', label: 'Czas odpowiedzi' },
+];
 
 const Index = () => {
-  const services = getServices();
-  const [area, setArea] = useState('');
-  const [selected, setSelected] = useState<string[]>([]);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const { toast } = useToast();
-
-  const areaNum = parseFloat(area) || 0;
-
-  const totalPrice = useMemo(() => {
-    return services
-      .filter(s => selected.includes(s.id))
-      .reduce((sum, s) => sum + s.pricePerM2 * areaNum, 0);
-  }, [services, selected, areaNum]);
-
-  const toggle = (id: string) => {
-    setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !phone.trim() || !address.trim() || !email.trim()) {
-      toast({ title: 'Uzupełnij wszystkie pola', variant: 'destructive' });
-      return;
-    }
-    if (selected.length === 0 || areaNum <= 0) {
-      toast({ title: 'Wybierz usługi i podaj powierzchnię', variant: 'destructive' });
-      return;
-    }
-    setSubmitted(true);
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/50">
-        {/* Glow effect */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px]" />
-
-        <div className="container mx-auto max-w-4xl px-4 py-16 md:py-24 text-center relative">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary mb-6">
-            <Sparkles className="h-3.5 w-3.5" />
-            Profesjonalna renowacja podłóg
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[150px]" />
+        <div className="container mx-auto max-w-6xl px-4 py-20 md:py-32 relative">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary mb-6">
+              <Sparkles className="h-3.5 w-3.5" />
+              Profesjonalna renowacja podłóg drewnianych
+            </div>
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
+              Twoje podłogi
+              <br />
+              zasługują na
+              <br />
+              <span className="text-primary">nowe życie</span>
+            </h1>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+              Specjalizujemy się w renowacji parkietów i podłóg drewnianych.
+              Przywracamy im blask, trwałość i naturalne piękno.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <NavLink to="/kalkulator">
+                <StarButton lightColor="hsl(38, 92%, 50%)" backgroundColor="hsl(38, 92%, 50%)" duration={4} borderWidth={1} className="rounded-lg">
+                  <span className="flex items-center gap-2 text-foreground font-semibold">
+                    Bezpłatna wycena
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </StarButton>
+              </NavLink>
+              <NavLink to="/realizacje" className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors border border-border/50 rounded-lg hover:border-border">
+                Zobacz realizacje
+                <ChevronRight className="h-4 w-4" />
+              </NavLink>
+            </div>
           </div>
-
-          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-4">
-            Oblicz koszt renowacji
-            <br />
-            <span className="text-primary">w kilka sekund</span>
-          </h2>
-
-          <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-8">
-            Wybierz usługi, podaj powierzchnię i otrzymaj natychmiastową wycenę.
-            Bez zobowiązań, szybko i wygodnie.
-          </p>
-
-          <a href="#calculator">
-            <StarButton
-              lightColor="hsl(38, 92%, 50%)"
-              backgroundColor="hsl(38, 92%, 50%)"
-              duration={4}
-              borderWidth={1}
-              className="rounded-lg"
-            >
-              <span className="flex items-center gap-2 text-foreground font-semibold">
-                Rozpocznij wycenę
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </StarButton>
-          </a>
         </div>
       </section>
 
-      <main className="container mx-auto max-w-2xl px-4 py-10 space-y-8" id="calculator">
-        {/* Calculator Card */}
-        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-display">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                <Calculator className="h-4 w-4 text-primary" />
+      {/* Stats */}
+      <section className="border-b border-border/50 bg-card/30">
+        <div className="container mx-auto max-w-6xl px-4 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map(s => (
+              <div key={s.label} className="text-center">
+                <p className="font-display text-3xl md:text-4xl font-bold text-primary">{s.value}</p>
+                <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
               </div>
-              Kalkulator wyceny
-            </CardTitle>
-            <CardDescription>Oszacuj koszt renowacji podłogi</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About preview */}
+      <section className="border-b border-border/50">
+        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Label htmlFor="area" className="mb-2 flex items-center gap-2 text-sm font-medium">
-                <Ruler className="h-3.5 w-3.5 text-muted-foreground" />
-                Powierzchnia (m²)
-              </Label>
-              <Input
-                id="area"
-                type="number"
-                min="0"
-                step="0.1"
-                placeholder="np. 45"
-                value={area}
-                onChange={e => setArea(e.target.value)}
-                className="bg-secondary/50 border-border/50 focus:border-primary/50"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Wybierz usługi</Label>
-              {services.map(s => (
-                <label
-                  key={s.id}
-                  className="flex cursor-pointer items-center justify-between rounded-lg border border-border/50 bg-secondary/30 p-4 transition-all hover:bg-secondary/60 hover:border-border has-[:checked]:border-primary/40 has-[:checked]:bg-primary/5"
-                >
-                  <div className="flex items-center gap-3">
-                    <Checkbox
-                      checked={selected.includes(s.id)}
-                      onCheckedChange={() => toggle(s.id)}
-                    />
-                    <span className="text-sm font-medium text-foreground">{s.namePl}</span>
-                  </div>
-                  <span className="text-sm font-semibold text-primary">{s.pricePerM2} zł/m²</span>
-                </label>
-              ))}
-            </div>
-
-            {/* Summary */}
-            {areaNum > 0 && selected.length > 0 && (
-              <div className="rounded-lg border border-primary/20 bg-primary/5 p-5 space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-                  Podsumowanie
-                </p>
-                {services.filter(s => selected.includes(s.id)).map(s => (
-                  <div key={s.id} className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{s.namePl}</span>
-                    <span className="text-foreground font-medium">{(s.pricePerM2 * areaNum).toFixed(2)} zł</span>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">O nas</p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-6">
+                Doświadczenie,
+                <br />któremu zaufasz
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Od ponad 15 lat zajmujemy się profesjonalną renowacją podłóg drewnianych
+                na terenie Warszawy i okolic. Łączymy tradycyjne rzemiosło z nowoczesnymi
+                technologiami, aby Twoje podłogi wyglądały jak nowe.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { icon: Shield, text: 'Gwarancja na wszystkie usługi' },
+                  { icon: Clock, text: 'Terminowa realizacja zleceń' },
+                  { icon: Award, text: 'Certyfikowani specjaliści' },
+                ].map(item => (
+                  <div key={item.text} className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                      <item.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <span className="text-sm font-medium">{item.text}</span>
                   </div>
                 ))}
-                <div className="border-t border-primary/20 pt-3 flex justify-between items-center">
-                  <span className="font-semibold text-foreground">Razem (szacunek)</span>
-                  <span className="text-xl font-bold text-primary">{totalPrice.toFixed(2)} zł</span>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-[4/3] rounded-2xl bg-secondary/50 border border-border/50 overflow-hidden flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Zdjęcie zespołu / realizacji</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services preview */}
+      <section className="border-b border-border/50 bg-card/20">
+        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">Oferta</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              Kompleksowa renowacja podłóg
+            </h2>
+            <p className="text-muted-foreground max-w-lg mx-auto">
+              Oferujemy pełen zakres usług renowacyjnych — od szlifowania po wykończenie.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {services.map(s => (
+              <div key={s.title} className="rounded-xl border border-border/50 bg-card/50 p-6 hover:border-primary/30 transition-colors group">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
+                  <s.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold mb-2">{s.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <NavLink to="/oferta" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+              Zobacz pełną ofertę <ArrowRight className="h-4 w-4" />
+            </NavLink>
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio preview */}
+      <section className="border-b border-border/50">
+        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">Realizacje</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              Nasze ostatnie projekty
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {projects.map(p => (
+              <div key={p.title} className="group rounded-xl border border-border/50 bg-card/50 overflow-hidden hover:border-primary/30 transition-colors">
+                <div className="aspect-[16/10] bg-secondary/50 flex items-center justify-center">
+                  <p className="text-muted-foreground text-xs">Zdjęcie realizacji</p>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display font-semibold mb-1">{p.title}</h3>
+                  <p className="text-sm text-muted-foreground">{p.area} · {p.type}</p>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <NavLink to="/realizacje" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+              Wszystkie realizacje <ArrowRight className="h-4 w-4" />
+            </NavLink>
+          </div>
+        </div>
+      </section>
 
-        {/* Lead Form */}
-        {submitted ? (
-          <Card className="border-primary/20 bg-primary/5">
-            <CardContent className="flex flex-col items-center gap-4 py-12">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
-                <CheckCircle2 className="h-8 w-8 text-primary" />
+      {/* Testimonials */}
+      <section className="border-b border-border/50 bg-card/20">
+        <div className="container mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">Opinie</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              Co mówią nasi klienci
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { name: 'Anna K.', text: 'Fantastyczna robota! Parkiet wygląda jak nowy. Polecam z całego serca.' },
+              { name: 'Marcin W.', text: 'Profesjonalne podejście, terminowa realizacja. Na pewno wrócę przy kolejnym remoncie.' },
+              { name: 'Katarzyna S.', text: 'Bardzo dokładni i czysto po sobie zostawili. Efekt przeszedł moje oczekiwania.' },
+            ].map(t => (
+              <div key={t.name} className="rounded-xl border border-border/50 bg-card/50 p-6">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">"{t.text}"</p>
+                <p className="text-sm font-semibold">{t.name}</p>
               </div>
-              <h3 className="text-xl font-display font-bold text-foreground">Dziękujemy!</h3>
-              <p className="text-sm text-muted-foreground text-center max-w-sm">
-                Twoje zapytanie zostało wysłane. Skontaktujemy się wkrótce z formalną wyceną.
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                  <Send className="h-4 w-4 text-primary" />
-                </div>
-                Uzyskaj formalną wycenę
-              </CardTitle>
-              <CardDescription>Podaj dane kontaktowe, a my przygotujemy ofertę</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="name" className="mb-2 block text-sm font-medium">Imię i nazwisko</Label>
-                  <Input id="name" value={name} onChange={e => setName(e.target.value)} placeholder="Jan Kowalski" className="bg-secondary/50 border-border/50 focus:border-primary/50" />
-                </div>
-                <div>
-                  <Label htmlFor="email" className="mb-2 block text-sm font-medium">Adres e-mail</Label>
-                  <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="jan@example.com" className="bg-secondary/50 border-border/50 focus:border-primary/50" />
-                </div>
-                <div>
-                  <Label htmlFor="phone" className="mb-2 block text-sm font-medium">Numer telefonu</Label>
-                  <Input id="phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+48 123 456 789" className="bg-secondary/50 border-border/50 focus:border-primary/50" />
-                </div>
-                <div>
-                  <Label htmlFor="address" className="mb-2 block text-sm font-medium">Adres inwestycji</Label>
-                  <Input id="address" value={address} onChange={e => setAddress(e.target.value)} placeholder="ul. Przykładowa 1, Warszawa" className="bg-secondary/50 border-border/50 focus:border-primary/50" />
-                </div>
-                <StarButton
-                  lightColor="hsl(38, 92%, 50%)"
-                  backgroundColor="hsl(38, 92%, 50%)"
-                  duration={4}
-                  borderWidth={1}
-                  className="w-full rounded-lg"
-                  type="submit"
-                >
-                  <span className="flex items-center justify-center gap-2 text-foreground font-semibold w-full">
-                    <Send className="h-4 w-4" />
-                    Wyślij zapytanie
-                  </span>
-                </StarButton>
-              </form>
-            </CardContent>
-          </Card>
-        )}
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="text-center py-8 border-t border-border/50">
-          <p className="text-xs text-muted-foreground">
-            © 2024 Renoparkiet. Profesjonalna renowacja podłóg drewnianych.
+      {/* CTA */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-primary/5" />
+        <div className="container mx-auto max-w-4xl px-4 py-16 md:py-24 text-center relative">
+          <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Gotowy na piękne podłogi?
+          </h2>
+          <p className="text-muted-foreground max-w-lg mx-auto mb-8">
+            Skontaktuj się z nami lub skorzystaj z kalkulatora, aby otrzymać bezpłatną wycenę.
           </p>
-        </footer>
-      </main>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <NavLink to="/kalkulator">
+              <StarButton lightColor="hsl(38, 92%, 50%)" backgroundColor="hsl(38, 92%, 50%)" duration={4} borderWidth={1} className="rounded-lg">
+                <span className="flex items-center gap-2 text-foreground font-semibold">
+                  Kalkulator wyceny <ArrowRight className="h-4 w-4" />
+                </span>
+              </StarButton>
+            </NavLink>
+            <NavLink to="/kontakt" className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors border border-border/50 rounded-lg hover:border-border">
+              Kontakt <ChevronRight className="h-4 w-4" />
+            </NavLink>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
