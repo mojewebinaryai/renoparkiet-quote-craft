@@ -45,6 +45,11 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
+      {/* Interactive Sneak Banner */}
+      <section className="relative w-full h-[300px] md:h-[400px] border-b border-border/50">
+        <Sneak text="RenoParkiet" />
+      </section>
+
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border/50">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[150px]" />
